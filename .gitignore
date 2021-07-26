@@ -3,5 +3,6 @@
 *.settings
 *.properties
 *.classpath
+*.txt
 /target/
 
