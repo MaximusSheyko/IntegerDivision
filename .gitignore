@@ -3,5 +3,4 @@
 *.settings
 *.properties
 *.classpath
-*.classpath
 /target/
