@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MathDataIntegerTest {
+class CalculatorTest {
 
-    MathDataInteger dataInteger;
+    Calculator dataInteger;
     ArrayList offsets_actual;
     ArrayList offsets_expected;
     ArrayList digits_actual;
@@ -21,8 +21,8 @@ class MathDataIntegerTest {
                             getDataInteger(2,DIVISOR_IS_ZERO);}).getMessage();
 
 
-    private MathDataInteger getDataInteger(long divider, long divisor){
-        return dataInteger = new MathDataInteger(divider,divisor);
+    private Calculator getDataInteger(long divider, long divisor){
+        return dataInteger = new Calculator(divider,divisor);
     }
 
     @BeforeEach

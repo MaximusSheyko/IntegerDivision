@@ -1,6 +1,6 @@
 package com.foxminded.IntegerDivision;
 
-public interface ICounter {
+public interface Counter {
     default int getCountSymbols(long digit) {
         int count = (digit == 0) ? 1 : 0;
 

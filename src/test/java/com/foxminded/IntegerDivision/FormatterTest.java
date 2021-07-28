@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VisualDivisionBarTest {
+class FormatterTest {
 
-        MathDataInteger dataInteger;
-        VisualDivisionBar form;
+        Calculator dataInteger;
+        Formatter form;
 
         private final String SEPARATOR_LINE = System.lineSeparator();
         private final long DIVISOR_IS_ZERO = 0;
@@ -31,8 +31,8 @@ class VisualDivisionBarTest {
 
 
     private String getForm(long divider, long divisor){
-        dataInteger = new MathDataInteger(divider,divisor);
-        form = new VisualDivisionBar(dataInteger.getAllOffsets(),dataInteger.getAllMinuendAndSubtrahend(),
+        dataInteger = new Calculator(divider,divisor);
+        form = new Formatter(dataInteger.getAllOffsets(),dataInteger.getAllMinuendAndSubtrahend(),
                 dataInteger.getDivider(), dataInteger.getDivisor(), dataInteger.getQuantity());
         return form.getForm();
     }
