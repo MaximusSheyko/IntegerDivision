@@ -2,7 +2,7 @@ package com.foxminded.IntegerDivision;
 
 import java.util.ArrayList;
 
-public class MathDataInteger implements ICounter {
+public class Calculator implements Counter {
     private long divider;
     private long divisor;
     private boolean isNegativeSign = false;
@@ -11,7 +11,7 @@ public class MathDataInteger implements ICounter {
     private StringBuilder changedDivided;
     private final static int FIRST_NUMBER = 0;
 
-    public MathDataInteger(long divider, long divisor) {
+    public Calculator(long divider, long divisor) {
 	if (divisor < 0 || divider < 0) {
 	    setNegativeSign(true);
 	}
