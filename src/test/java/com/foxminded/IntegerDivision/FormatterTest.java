@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class FormatterTest {
     Formatter formatter = new Formatter();
     Calculator calculator = new Calculator();
-    private final String SEPARATOR_LINE = System.lineSeparator();
-    private final long DIVIDER_IS_ZERO = 0;
-    private final long DEFAULT_DIVISOR = 4;
-    private final long DIVIDER_IS_GREATER = 144;
-    private final long DIVIDER_IS_GREATER_IS_NEGATIVE = -144;
+    private static final String SEPARATOR_LINE = System.lineSeparator();
+    private static final long DIVIDER_IS_ZERO = 0;
+    private static final long DEFAULT_DIVISOR = 4;
+    private static final long DIVIDER_IS_GREATER = 144;
+    private static final long DIVIDER_IS_GREATER_IS_NEGATIVE = -144;
     private final String TABLE_DIVIDER_IS_ZERO_EXPECTED = String.format("_0|%d%2$s" + " 0|-%2$s" + " ˉ|0%2$s",
 	    DEFAULT_DIVISOR, SEPARATOR_LINE);
     private final String TABLE_DIVIDER_IS_ZERO_ACTUAL = formatter

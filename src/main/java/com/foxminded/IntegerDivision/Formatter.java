@@ -1,15 +1,12 @@
 package com.foxminded.IntegerDivision;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 public class Formatter implements Counter {
-    private final String SPACE = "\u0020";
-    private final String SEPARATING_LINE = System.lineSeparator();
-    private final String MIDDLE_MACRON = "\u002d";
-    private final String MINUS = "\u005F";
-    private final String HIGH_MACRON = "\u02C9";
-    private final int DEFAULT_STEP = 1;
+    private static final String SPACE = "\u0020";
+    private static final String SEPARATING_LINE = System.lineSeparator();
+    private static final String MIDDLE_MACRON = "\u002d";
+    private static final String MINUS = "\u005F";
+    private static final String HIGH_MACRON = "\u02C9";
+    private static final int DEFAULT_STEP = 1;
 
     public String getForm(DataIntegerDivision data) {
 	if (data == null) {
