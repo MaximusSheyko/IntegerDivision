@@ -34,7 +34,7 @@ public class Formatter implements Counter {
 
     private String formatterBody(DataIntegerDivision data) {
 	StringBuilder body = new StringBuilder();
-	int maxStep = data.getOffsets().size() - 1;
+	int maxStep = data.getOffsets().size() - DEFAULT_STEP;
 
 	for (int count = 1; data.getOffsets().size() > count; count++) {
 	    long currentNumber = data.getMinuendAndSubtrahend().get(count);
@@ -47,7 +47,7 @@ public class Formatter implements Counter {
 		body.append(MinuendLine);
 	    }
 	    if (count != maxStep && count % 2 != 0) {
-		String SubtrahendLine = String.format("%s%s%d%s", SPACE.repeat(currentStep - 1), MINUS, currentNumber,
+		String SubtrahendLine = String.format("%s%s%d%s", SPACE.repeat(currentStep - DEFAULT_STEP), MINUS, currentNumber,
 			SEPARATING_LINE);
 		body.append(SubtrahendLine);
 	    }
