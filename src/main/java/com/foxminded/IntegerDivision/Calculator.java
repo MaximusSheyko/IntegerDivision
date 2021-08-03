@@ -108,7 +108,6 @@ public class Calculator {
 	if (isDividerZero || digitsDivider.isEmpty()) {
 	    return step;
 	}
-
 	if (!digitsDivider.isEmpty()) {
 	    int countZero = 0;
 
