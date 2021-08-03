@@ -13,12 +13,11 @@ public class Formatter {
 	    throw new IllegalArgumentException("data is null");
 	}
 
-	String form = formatterHead(data).concat(formatterBody(data));
-	return form;
+	return formatterHead(data).concat(formatterBody(data));
     }
 
     private String formatterHead(DataIntegerDivision data) {
-	StringBuilder head = new StringBuilder();
+	var head = new StringBuilder();
 
 	head.append(String.format("%s%d" + "|" + "%d%s", MINUS, data.getDivider(), data.getDivisor(), SEPARATING_LINE))
 
@@ -26,7 +25,7 @@ public class Formatter {
 			SPACE.repeat(data.getOffsets().get(0) + DEFAULT_STEP),
 			data.getMinuendAndSubtrahend().get(0), 
 			SPACE.repeat(countSpaceForHead(data)),
-			MIDDLE_MACRON.repeat(countAmountOfSymbolQuantityDependingOnSign(data)), 
+			MIDDLE_MACRON.repeat(countLength(data.getQuantient())), 
 			SEPARATING_LINE))
 
 		.append(String.format("%s%s%s" + "|" + "%d%s", 
@@ -39,10 +38,10 @@ public class Formatter {
     }
 
     private String formatterBody(DataIntegerDivision data) {
-	StringBuilder body = new StringBuilder();
+	var body = new StringBuilder();
 	int maxStep = data.getOffsets().size() - 1;
 
-	for (int count = 1; data.getOffsets().size() > count; count++) {
+	for (var count = 1; data.getOffsets().size() > count; count++) {
 	    long currentNumber = data.getMinuendAndSubtrahend().get(count);
 	    int currentStep = data.getOffsets().get(count) + DEFAULT_STEP;
 
@@ -67,10 +66,6 @@ public class Formatter {
     private int countSpaceForHead(DataIntegerDivision data) {
 	return countLength(data.getDivider())
 		- (this.countLength(data.getMinuendAndSubtrahend().get(0)) + data.getOffsets().get(0));
-    }
-
-    private int countAmountOfSymbolQuantityDependingOnSign(DataIntegerDivision data) {
-	return countLength(data.getQuantient());
     }
 
     private int countLength(Long number) {
