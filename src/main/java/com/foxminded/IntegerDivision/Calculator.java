@@ -1,146 +1,150 @@
 package com.foxminded.IntegerDivision;
 
-public class Calculator implements Counter {
-    private DataIntegerDivision data;
-    private StringBuilder changedDivided;
-    private static final int FIRST_NUMBER = 0;
+import java.util.ArrayList;
+import java.util.Collections;
 
-    private DataIntegerDivision getData() {
+public class Calculator {
+    private ArrayList<Integer> digitsQuotient = new ArrayList<>();
+    private ArrayList<Integer> digitsDivider = new ArrayList<>();
+
+    public DataIntegerDivision getMathData(long divider, long divisor) {
+	if (divisor == 0) {
+	    throw new IllegalArgumentException("Try divide by zero!");
+	}
+
+	DataIntegerDivision data = new DataIntegerDivision();
+	long minuend = 0;
+	long subtrahend = 0;
+	int stepMinuend = 0;
+	int stepSubtrahend = 0;
+
+	data.setQuantient(divider / divisor);
+	data.setDivider(Math.abs(divider));
+	data.setDivisor(Math.abs(divisor));
+	digitsQuotient = splitToDigits(Math.abs(data.getQuantient()));
+	digitsDivider = splitToDigits(data.getDivider());
+
+	if (data.getDivider() < data.getDivisor()) {
+	    data.setQuantient(0);
+	    data.addOffsets(0);
+	    data.addMinuendAndSubtrahend(0);
+	} else {
+	    minuend = countFirstMinuend(data.getDivisor());
+
+	    for (int digit : digitsQuotient) {
+		if (digit != 0) {
+		    subtrahend = data.getDivisor() * digit;
+		    data.addMinuendAndSubtrahend(subtrahend);
+		    stepSubtrahend = countStepOfSubtrahend(subtrahend, minuend, stepMinuend);
+		    data.addOffsets(stepSubtrahend);
+
+		    stepMinuend += countStepOfMinuend(subtrahend, minuend);
+		    data.addOffsets(stepMinuend);
+		    minuend = countMinuend(minuend, data.getDivisor());
+		    data.addMinuendAndSubtrahend(minuend);
+		}
+	    }
+	}
+
 	return data;
     }
 
-    public DataIntegerDivision getMathData(long divider, long divisor) throws IllegalArgumentException {
-	if (divisor == 0) {
-	    throw new IllegalArgumentException("You can not divided by zero!");
-	}
-	long result;
-	long remainder;
+    private ArrayList<Integer> splitToDigits(long number) {
+	number = Math.abs(number);
+	ArrayList<Integer> digits = new ArrayList();
 
-	result = divider / divisor;
-	data = new DataIntegerDivision();
-	data.setDivider(Math.abs(divider));
-	data.setDivisor(Math.abs(divisor));
-
-	if (data.getDivider() < data.getDivisor()) {
-	    data.addMinuendAndSubtrahend(0);
-	    data.addOffsets(0);
+	if (number == 0) {
+	    digits.add((int) number);
 	} else {
-	    data.setQuantity(result);
-	    countMinuendAndSubtrahend();
-	}
-	remainder = data.getMinuendAndSubtrahend().get(data.getMinuendAndSubtrahend().size() - 1);
-	data.setRemainder(remainder);
-	return getData();
-    }
-
-    private void countMinuendAndSubtrahend() {
-	int stepSubtrahend = 0;
-	int stepMinuend;
-	long oldSubtrahend;
-	int[] quantity = toConvertQuantityToArray();
-	final int sizeQuantity = quantity.length - 1;
-	long newSubtrahend = calcFirstSubtrahend();
-	long minuend;
-
-	for (int count = sizeQuantity; count >= 0; count--) {
-	    if (quantity[count] != 0) {
-		minuend = data.getDivisor() * quantity[count];
-		data.addMinuendAndSubtrahend(minuend);
-		oldSubtrahend = newSubtrahend;
-		stepMinuend = countOffsetForMinuend(minuend, newSubtrahend, stepSubtrahend);
-		data.addOffsets(stepMinuend);
-		newSubtrahend -= minuend;
-		stepSubtrahend += countOffsetForSubtrahend(newSubtrahend, oldSubtrahend);
-		newSubtrahend = calcSubtrahend(newSubtrahend);
-		data.addOffsets(stepSubtrahend);
-		data.addMinuendAndSubtrahend(newSubtrahend);
+	    while (number != 0) {
+		int digit = (int) (number % 10);
+		digits.add(digit);
+		number /= 10;
 	    }
 	}
+
+	Collections.reverse(digits);
+	return digits;
     }
 
-    private int countOffsetForSubtrahend(long subtrahend, long oldSubtrahend) {
-	int step = Math.abs(getCountSymbols(oldSubtrahend) - (getCountSymbols(subtrahend)));
+    private long countFirstMinuend(long divisor) {
+	long minuend = digitsDivider.get(0);
+	digitsDivider.remove(0);
 
-	if (changedDivided.isEmpty()) {
-	    return step;
-	}
-	if (subtrahend == 0 && !changedDivided.isEmpty()) {
-	    while (!changedDivided.isEmpty()) {
-		assert changedDivided != null;
-		if (changedDivided.charAt(FIRST_NUMBER) != '0') {
-		    break;
-		}
-		++step;
-		changedDivided.deleteCharAt(FIRST_NUMBER);
-	    }
-	    if (!changedDivided.isEmpty()) {
-		return step + getCountSymbols(oldSubtrahend);
+	while (!digitsDivider.isEmpty()) {
+	    if (divisor <= minuend) {
+		return minuend;
 	    } else {
-		return step;
+		minuend = (minuend * 10) + digitsDivider.get(0);
+		digitsDivider.remove(0);
 	    }
 	}
-	return step;
+
+	return minuend;
     }
 
-    private int countOffsetForMinuend(long minuend, long subtrahend, int backStep) {
-	int step = getCountSymbols(subtrahend) - getCountSymbols(minuend);
-	boolean isLengthSame = getCountSymbols(subtrahend) == getCountSymbols(minuend);
+    public int countStepOfSubtrahend(long subtrahend, long minuend, int stepOfMinuend) {
+	int step = countAmountOfDigits(minuend) - countAmountOfDigits(subtrahend);
+	boolean isLengthSame = countAmountOfDigits(subtrahend) == countAmountOfDigits(minuend);
 
 	if ((subtrahend - minuend == 0) || isLengthSame) {
-	    return backStep;
+	    return stepOfMinuend;
 	}
 	if (step != 0) {
-	    return step + backStep;
+	    return step + stepOfMinuend;
 	} else {
 	    return step;
 	}
     }
 
-    private long calcSubtrahend(long subtrahend) {
-	if (subtrahend > data.getDivisor()) {
-	    return subtrahend;
-	} else {
-	    while (subtrahend < data.getDivisor() && !changedDivided.isEmpty()) {
-		subtrahend = (subtrahend * 10) + getFirstNumberDivider();
-		changedDivided.deleteCharAt(FIRST_NUMBER);
+    public int countStepOfMinuend(long subtrahend, long minuend) {
+	long nextMinuend = minuend - subtrahend;
+	boolean isDividerZero = digitsDivider.stream().allMatch(number -> number.equals(0));
+	int step = Math.abs(countAmountOfDigits(minuend) - (countAmountOfDigits(nextMinuend)));
+
+	if (nextMinuend != 0) {
+	    return step;
+	}
+	if (isDividerZero || digitsDivider.isEmpty()) {
+	    return step;
+	}
+
+	if (!digitsDivider.isEmpty()) {
+	    int countZero = 0;
+
+	    for (int number : digitsDivider) {
+		if (number != 0) {
+		    break;
+		}
+		++countZero;
 	    }
+	    step = countZero + countAmountOfDigits(minuend);
+	    return step;
+	} else {
+	    return 0;
 	}
-	return subtrahend;
     }
 
-    private int getFirstNumberDivider() {
-	final var converterToDigit = '0';
-	return changedDivided.charAt(FIRST_NUMBER) - converterToDigit;
-    }
+    private long countMinuend(long minuend, long divisor) {
+	minuend = (minuend % divisor);
 
-    private long calcFirstSubtrahend() {
-	long subtrahend;
-	int sizeMinuend = getCountSymbols(data.getDivisor());
-	changedDivided = new StringBuilder(String.valueOf(data.getDivider()));
-	int firstIndex = 0;
-
-	subtrahend = Long.parseLong(changedDivided.substring(firstIndex, sizeMinuend));
-	changedDivided.delete(firstIndex, sizeMinuend);
-
-	subtrahend = calcSubtrahend(subtrahend);
-	return subtrahend;
-    }
-
-    private int[] toConvertQuantityToArray() {
-	long tempQuantity = Math.abs(data.getQuantity());
-	int amountOfNumbers = getCountSymbols(data.getQuantity());
-	var numberQuantity = new int[amountOfNumbers];
-
-	for (var count = 0; amountOfNumbers > count; count++) {
-	    int i = (int) (tempQuantity % 10);
-	    numberQuantity[count] = i;
-	    tempQuantity /= 10;
+	if (minuend < divisor) {
+	    while (!digitsDivider.isEmpty() && minuend < divisor) {
+		minuend = (minuend * 10) + digitsDivider.get(0);
+		digitsDivider.remove(0);
+	    }
+	    return minuend;
 	}
-	return numberQuantity;
+	return minuend;
     }
 
-    @Override
-    public String toString() {
-	return "Calculator{" + "data=" + this.data + '}';
+    private int countAmountOfDigits(long digit) {
+	int count = (digit == 0) ? 1 : 0;
+
+	while (digit != 0) {
+	    count++;
+	    digit /= 10;
+	}
+	return count;
     }
 }

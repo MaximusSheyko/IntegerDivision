@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class DataIntegerDivision {
     private long divider;
     private long divisor;
-    private long quantity;
+    private long quotient;
     private long remainder;
     private ArrayList<Long> minuendAndSubtrahend = new ArrayList<>();
     private ArrayList<Integer> offsets = new ArrayList<>();
@@ -34,12 +34,12 @@ public class DataIntegerDivision {
 	this.remainder = remainder;
     }
 
-    public long getQuantity() {
-	return quantity;
+    public long getQuantient() {
+	return quotient;
     }
 
-    public void setQuantity(long quantity) {
-	this.quantity = quantity;
+    public void setQuantient(long quantity) {
+	this.quotient = quantity;
     }
 
     public ArrayList<Long> getMinuendAndSubtrahend() {
@@ -68,8 +68,7 @@ public class DataIntegerDivision {
 
     @Override
     public String toString() {
-	return "DataIntegerDivision{" + "divider=" + divider + ", divisor=" + divisor + ", quantity=" + quantity
+	return "DataIntegerDivision{" + "divider=" + divider + ", divisor=" + divisor + ", quotient=" + quotient
 		+ ", minuendAndSubtrahend=" + minuendAndSubtrahend + ", offsets=" + offsets + '}';
     }
-
 }

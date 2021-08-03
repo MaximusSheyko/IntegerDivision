@@ -49,12 +49,12 @@ class CalculatorTest {
 
     @Test
     void getMathData_QuantityPositiveCheck() {
-        assertEquals(QUANTITY, calculator.getMathData(DEFAULT_DIVIDER,DEFAULT_DIVISOR).getQuantity());
+        assertEquals(QUANTITY, calculator.getMathData(DEFAULT_DIVIDER,DEFAULT_DIVISOR).getQuantient());
     }
 
     @Test
     void getMathData_QuantityNegativeCheck() {
         assertEquals(QUANTITY_NEGATIVE,
-                calculator.getMathData(DEFAULT_DIVIDER_NEGATIVE,DEFAULT_DIVISOR).getQuantity());
+                calculator.getMathData(DEFAULT_DIVIDER_NEGATIVE,DEFAULT_DIVISOR).getQuantient());
     }
 }
