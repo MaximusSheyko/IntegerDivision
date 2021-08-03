@@ -73,7 +73,7 @@ public class Formatter {
 	return countLength(data.getQuantient());
     }
 
-    public int countLength(Long number) {
+    private int countLength(Long number) {
 	return number.toString().length();
     }
 }
