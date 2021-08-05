@@ -31,7 +31,7 @@ class DivideFacadeTest {
     void testDivideTable_verifyCallMethodeGetMathData() {
 	facade.DivideTable(4, 2);
 	
-	verify(calculator).getMathData(4, 2);
+	verify(calculator, times(1)).getMathData(4, 2);
 	verifyNoMoreInteractions(calculator);
     }
     
@@ -42,8 +42,8 @@ class DivideFacadeTest {
 	
 	assertEquals("return",facade.DivideTable(0, 2));
    	
-   	verify(calculator).getMathData(0, 2);
-   	verify(form).getForm(data);
+   	verify(calculator, times(1)).getMathData(0, 2);
+   	verify(form, times(1)).getForm(data);
    	verifyNoMoreInteractions(form);
        }
     
