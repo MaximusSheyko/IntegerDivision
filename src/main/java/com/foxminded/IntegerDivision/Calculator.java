@@ -2,17 +2,18 @@ package com.foxminded.IntegerDivision;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Calculator {
-    private ArrayList<Integer> digitsQuotient = new ArrayList<>();
-    private ArrayList<Integer> digitsDivider = new ArrayList<>();
+    private List<Integer> digitsQuotient = new ArrayList<>();
+    private List<Integer> digitsDivider = new ArrayList<>();
 
     public DataIntegerDivision getMathData(long divider, long divisor) {
 	if (divisor == 0) {
 	    throw new IllegalArgumentException("Try divide by zero!");
 	}
 
-	DataIntegerDivision data = new DataIntegerDivision();
+	var data = new DataIntegerDivision();
 	long minuend = 0;
 	long subtrahend = 0;
 	int stepMinuend = 0;
@@ -21,7 +22,9 @@ public class Calculator {
 	data.setQuantient(divider / divisor);
 	data.setDivider(Math.abs(divider));
 	data.setDivisor(Math.abs(divisor));
-	digitsQuotient = splitToDigits(Math.abs(data.getQuantient()));
+	digitsQuotient = splitToDigits(Math.abs(data.getQuantient())).stream()
+		.filter(number -> number != 0)
+		.toList();
 	digitsDivider = splitToDigits(data.getDivider());
 
 	if (data.getDivider() < data.getDivisor()) {
@@ -32,7 +35,6 @@ public class Calculator {
 	    minuend = countFirstMinuend(data.getDivisor());
 
 	    for (int digit : digitsQuotient) {
-		if (digit != 0) {
 		    subtrahend = data.getDivisor() * digit;
 		    data.addMinuendAndSubtrahend(subtrahend);
 		    stepSubtrahend = countStepOfSubtrahend(subtrahend, minuend, stepMinuend);
@@ -42,16 +44,15 @@ public class Calculator {
 		    data.addOffsets(stepMinuend);
 		    minuend = countMinuend(minuend, data.getDivisor());
 		    data.addMinuendAndSubtrahend(minuend);
-		}
 	    }
 	}
 
 	return data;
     }
 
-    private ArrayList<Integer> splitToDigits(long number) {
+    private List<Integer> splitToDigits(long number) {
 	number = Math.abs(number);
-	ArrayList<Integer> digits = new ArrayList();
+	List<Integer> digits = new ArrayList<>();
 
 	if (number == 0) {
 	    digits.add((int) number);

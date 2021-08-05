@@ -1,14 +1,15 @@
 package com.foxminded.IntegerDivision;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataIntegerDivision {
     private long divider;
     private long divisor;
     private long quotient;
     private long remainder;
-    private ArrayList<Long> minuendAndSubtrahend = new ArrayList<>();
-    private ArrayList<Integer> offsets = new ArrayList<>();
+    private List<Long> minuendAndSubtrahend = new ArrayList<>();
+    private List<Integer> offsets = new ArrayList<>();
 
     public long getDivider() {
 	return divider;
@@ -42,11 +43,11 @@ public class DataIntegerDivision {
 	this.quotient = quantity;
     }
 
-    public ArrayList<Long> getMinuendAndSubtrahend() {
+    public List<Long> getMinuendAndSubtrahend() {
 	return minuendAndSubtrahend;
     }
 
-    public void setMinuendAndSubtrahend(ArrayList<Long> minuendAndSubtrahend) {
+    public void setMinuendAndSubtrahend(List<Long> minuendAndSubtrahend) {
 	this.minuendAndSubtrahend = minuendAndSubtrahend;
     }
 
@@ -54,7 +55,7 @@ public class DataIntegerDivision {
 	this.minuendAndSubtrahend.add(number);
     }
 
-    public ArrayList<Integer> getOffsets() {
+    public List<Integer> getOffsets() {
 	return offsets;
     }
 
@@ -62,7 +63,7 @@ public class DataIntegerDivision {
 	this.offsets.add(offset);
     }
 
-    public void setOffsets(ArrayList<Integer> offsets) {
+    public void setOffsets(List<Integer> offsets) {
 	this.offsets = offsets;
     }
 

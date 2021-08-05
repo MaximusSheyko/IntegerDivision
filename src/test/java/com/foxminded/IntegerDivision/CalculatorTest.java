@@ -8,17 +8,15 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
-    
     Calculator calculator;
-    final static long DIVISOR_IS_ZERO = 0;
-    final static long DEFAULT_DIVIDER = 46778;
-    final static long DEFAULT_DIVIDER_NEGATIVE = -46778;
-    final static long DEFAULT_DIVISOR = 47;
-    final static String ALL_MINUEND_AND_SUBTRAHEND = "[423, 447, 423, 248, 235, 13]";
-    final static String ALL_OFFSETS = "[0, 1, 1, 2, 2, 3]";
-    final static long QUANTITY = 995;
-    final static long QUANTITY_NEGATIVE = -995;
-
+    private final static long DIVISOR_IS_ZERO = 0;
+    private final static long DEFAULT_DIVIDER = 46778;
+    private final static long DEFAULT_DIVIDER_NEGATIVE = -46778;
+    private final static long DEFAULT_DIVISOR = 47;
+    private final static String ALL_MINUEND_AND_SUBTRAHEND = "[423, 447, 423, 248, 235, 13]";
+    private final static String ALL_OFFSETS = "[0, 1, 1, 2, 2, 3]";
+    private final static long QUANTITY = 995;
+    private final static long QUANTITY_NEGATIVE = -995;
 
     @BeforeEach
     void init(){

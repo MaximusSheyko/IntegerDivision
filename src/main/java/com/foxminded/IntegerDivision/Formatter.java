@@ -6,6 +6,7 @@ public class Formatter {
     private final String MIDDLE_MACRON = "\u002d";
     private final String MINUS = "\u005F";
     private final String HIGH_MACRON = "\u02C9";
+    private final String VERTICAL_LINE = "\u007C";
     private final int DEFAULT_STEP = 1;
 
     public String getForm(DataIntegerDivision data) {
@@ -19,16 +20,14 @@ public class Formatter {
     private String formatterHead(DataIntegerDivision data) {
 	var head = new StringBuilder();
 
-	head.append(String.format("%s%d" + "|" + "%d%s", MINUS, data.getDivider(), data.getDivisor(), SEPARATING_LINE))
-
-		.append(String.format("%s%d%s" + "|" + "%s%s", 
+	head.append(String.format("%s%d" + VERTICAL_LINE + "%d%s", MINUS, data.getDivider(), data.getDivisor(), SEPARATING_LINE))
+		.append(String.format("%s%d%s" + VERTICAL_LINE + "%s%s", 
 			SPACE.repeat(data.getOffsets().get(0) + DEFAULT_STEP),
 			data.getMinuendAndSubtrahend().get(0), 
 			SPACE.repeat(countSpaceForHead(data)),
-			MIDDLE_MACRON.repeat(countLength(data.getQuantient())), 
+			MIDDLE_MACRON.repeat(countLength(data.getQuantient())),
 			SEPARATING_LINE))
-
-		.append(String.format("%s%s%s" + "|" + "%d%s", 
+		.append(String.format("%s%s%s" + VERTICAL_LINE + "%d%s", 
 			SPACE.repeat(data.getOffsets().get(0) + DEFAULT_STEP),
 			HIGH_MACRON.repeat(this.countLength(data.getMinuendAndSubtrahend().get(0))),
 			SPACE.repeat(countSpaceForHead(data)),
