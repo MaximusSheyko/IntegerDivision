@@ -28,23 +28,21 @@ class DivideFacadeTest {
     }
     
     @Test
-    void testDivideTable_verifyCallMethodeGetMathData() {
+    void testDivideTable_verifyCallMethodeGetMathDataAndGetForm() {
 	facade.DivideTable(4, 2);
 	
-	verify(calculator, times(1)).getMathData(4, 2);
+	verify(calculator, times(1)).getMathData(4,2);
+	verify(form, times(1)).getForm(any());
 	verifyNoMoreInteractions(calculator);
+	verifyNoMoreInteractions(form);
     }
     
     @Test
-    void testDivideTable_verifyCallMethodeGetForm() {
+    void testDivideTable_verifyCallMethodeGetForm_ReturnString() {
 	when(calculator.getMathData(0, 2)).thenReturn(data);
 	when(form.getForm(data)).thenReturn("return");
 	
 	assertEquals("return",facade.DivideTable(0, 2));
-   	
-   	verify(calculator, times(1)).getMathData(0, 2);
-   	verify(form, times(1)).getForm(data);
-   	verifyNoMoreInteractions(form);
        }
     
     @Test
@@ -52,9 +50,6 @@ class DivideFacadeTest {
 	when(calculator.getMathData(2, 0)).thenThrow(new IllegalArgumentException("Try divide by zero!"));
 	
 	assertThrows(Exception.class, () -> {facade.DivideTable(2, 0);}, "Try divide by zero!");   
-	    
-   	verify(calculator).getMathData(2, 0);
-   	verifyNoMoreInteractions(calculator);
        }
     
     @Test
@@ -62,9 +57,6 @@ class DivideFacadeTest {
 	when(form.getForm(null)).thenThrow(new IllegalArgumentException("data is null"));
 	
 	assertThrows(Exception.class, () -> {facade.DivideTable(4, 2);}, "data is null");   
-	    
-   	verify(form).getForm(null);
-   	verifyNoMoreInteractions(form);
        }
 }
 
