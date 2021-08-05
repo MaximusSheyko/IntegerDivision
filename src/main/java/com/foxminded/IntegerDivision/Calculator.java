@@ -84,7 +84,7 @@ public class Calculator {
 	return minuend;
     }
 
-    public int countStepOfSubtrahend(long subtrahend, long minuend, int stepOfMinuend) {
+    private int countStepOfSubtrahend(long subtrahend, long minuend, int stepOfMinuend) {
 	int step = countAmountOfDigits(minuend) - countAmountOfDigits(subtrahend);
 	boolean isLengthSame = countAmountOfDigits(subtrahend) == countAmountOfDigits(minuend);
 
@@ -98,20 +98,15 @@ public class Calculator {
 	}
     }
 
-    public int countStepOfMinuend(long subtrahend, long minuend) {
+    private int countStepOfMinuend(long subtrahend, long minuend) {
+	int countZero = 0;
 	long nextMinuend = minuend - subtrahend;
 	boolean isDividerZero = digitsDivider.stream().allMatch(number -> number.equals(0));
-	int step = Math.abs(countAmountOfDigits(minuend) - (countAmountOfDigits(nextMinuend)));
+	int step;
 
-	if (nextMinuend != 0) {
-	    return step;
-	}
-	if (isDividerZero || digitsDivider.isEmpty()) {
-	    return step;
-	}
-	if (!digitsDivider.isEmpty()) {
-	    int countZero = 0;
-
+	if (nextMinuend != 0 || isDividerZero || digitsDivider.isEmpty()) {
+	    step = Math.abs(countAmountOfDigits(minuend) - (countAmountOfDigits(nextMinuend)));
+	} else {
 	    for (int number : digitsDivider) {
 		if (number != 0) {
 		    break;
@@ -119,10 +114,9 @@ public class Calculator {
 		++countZero;
 	    }
 	    step = countZero + countAmountOfDigits(minuend);
-	    return step;
-	} else {
-	    return 0;
 	}
+	
+	return step;
     }
 
     private long countMinuend(long minuend, long divisor) {
