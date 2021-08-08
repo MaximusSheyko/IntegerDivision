@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Calculator {
-    private List<Integer> digitsQuotient = new ArrayList<>();
     private List<Integer> digitsDivider = new ArrayList<>();
 
     public DataIntegerDivision getMathData(long divider, long divisor) {
 	if (divisor == 0) {
 	    throw new IllegalArgumentException("Try divide by zero!");
 	}
-
+	
+	List<Integer> digitsQuotient = new ArrayList<>();
 	var data = new DataIntegerDivision();
 	long minuend = 0;
 	long subtrahend = 0;
@@ -35,15 +35,15 @@ public class Calculator {
 	    minuend = countFirstMinuend(data.getDivisor());
 
 	    for (int digit : digitsQuotient) {
-		    subtrahend = data.getDivisor() * digit;
-		    data.addMinuendAndSubtrahend(subtrahend);
-		    stepSubtrahend = countStepOfSubtrahend(subtrahend, minuend, stepMinuend);
-		    data.addOffsets(stepSubtrahend);
+		subtrahend = data.getDivisor() * digit;
+		data.addMinuendAndSubtrahend(subtrahend);
+		stepSubtrahend = countStepOfSubtrahend(subtrahend, minuend, stepMinuend);
+		data.addOffsets(stepSubtrahend);
 
-		    stepMinuend += countStepOfMinuend(subtrahend, minuend);
-		    data.addOffsets(stepMinuend);
-		    minuend = countMinuend(minuend, data.getDivisor());
-		    data.addMinuendAndSubtrahend(minuend);
+		stepMinuend += countStepOfMinuend(subtrahend, minuend);
+		data.addOffsets(stepMinuend);
+		minuend = countMinuend(minuend, data.getDivisor());
+		data.addMinuendAndSubtrahend(minuend);
 	    }
 	}
 
@@ -115,7 +115,7 @@ public class Calculator {
 	    }
 	    step = countZero + countAmountOfDigits(minuend);
 	}
-	
+
 	return step;
     }
 
