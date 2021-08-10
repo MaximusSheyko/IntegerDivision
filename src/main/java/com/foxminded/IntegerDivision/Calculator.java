@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Calculator {
-    private List<Integer> digitsDivider = new ArrayList<>();
-
     public DataIntegerDivision getMathData(long divider, long divisor) {
 	if (divisor == 0) {
 	    throw new IllegalArgumentException("Try divide by zero!");
@@ -25,14 +23,14 @@ public class Calculator {
 	digitsQuotient = splitToDigits(Math.abs(data.getQuantient())).stream()
 		.filter(number -> number != 0)
 		.toList();
-	digitsDivider = splitToDigits(data.getDivider());
+	data.setDigitsDivider(splitToDigits(data.getDivider()));
 
 	if (data.getDivider() < data.getDivisor()) {
 	    data.setQuantient(0);
 	    data.addOffsets(0);
 	    data.addMinuendAndSubtrahend(0);
 	} else {
-	    minuend = countFirstMinuend(data.getDivisor());
+	    minuend = countFirstMinuend(data.getDivisor(), data);
 
 	    for (int digit : digitsQuotient) {
 		subtrahend = data.getDivisor() * digit;
@@ -40,9 +38,9 @@ public class Calculator {
 		stepSubtrahend = countStepOfSubtrahend(subtrahend, minuend, stepMinuend);
 		data.addOffsets(stepSubtrahend);
 
-		stepMinuend += countStepOfMinuend(subtrahend, minuend);
+		stepMinuend += countStepOfMinuend(subtrahend, minuend, data);
 		data.addOffsets(stepMinuend);
-		minuend = countMinuend(minuend, data.getDivisor());
+		minuend = countMinuend(minuend, data.getDivisor(), data);
 		data.addMinuendAndSubtrahend(minuend);
 	    }
 	}
@@ -68,16 +66,16 @@ public class Calculator {
 	return digits;
     }
 
-    private long countFirstMinuend(long divisor) {
-	long minuend = digitsDivider.get(0);
-	digitsDivider.remove(0);
+    private long countFirstMinuend(long divisor, DataIntegerDivision data) {
+	long minuend = data.getDigitsDivider().get(0);
+	data.getDigitsDivider().remove(0);
 
-	while (!digitsDivider.isEmpty()) {
+	while (!data.getDigitsDivider().isEmpty()) {
 	    if (divisor <= minuend) {
 		return minuend;
 	    } else {
-		minuend = (minuend * 10) + digitsDivider.get(0);
-		digitsDivider.remove(0);
+		minuend = (minuend * 10) + data.getDigitsDivider().get(0);
+		data.getDigitsDivider().remove(0);
 	    }
 	}
 
@@ -98,16 +96,17 @@ public class Calculator {
 	}
     }
 
-    private int countStepOfMinuend(long subtrahend, long minuend) {
+    private int countStepOfMinuend(long subtrahend, long minuend, DataIntegerDivision data) {
 	int countZero = 0;
 	long nextMinuend = minuend - subtrahend;
-	boolean isDividerZero = digitsDivider.stream().allMatch(number -> number.equals(0));
+	boolean isDividerZero = data.getDigitsDivider().stream()
+		.allMatch(number -> number.equals(0));
 	int step;
 
-	if (nextMinuend != 0 || isDividerZero || digitsDivider.isEmpty()) {
+	if (nextMinuend != 0 || isDividerZero || data.getDigitsDivider().isEmpty()) {
 	    step = Math.abs(countAmountOfDigits(minuend) - (countAmountOfDigits(nextMinuend)));
 	} else {
-	    for (int number : digitsDivider) {
+	    for (int number : data.getDigitsDivider()) {
 		if (number != 0) {
 		    break;
 		}
@@ -119,13 +118,13 @@ public class Calculator {
 	return step;
     }
 
-    private long countMinuend(long minuend, long divisor) {
+    private long countMinuend(long minuend, long divisor, DataIntegerDivision data) {
 	minuend = (minuend % divisor);
 
 	if (minuend < divisor) {
-	    while (!digitsDivider.isEmpty() && minuend < divisor) {
-		minuend = (minuend * 10) + digitsDivider.get(0);
-		digitsDivider.remove(0);
+	    while (!data.getDigitsDivider().isEmpty() && minuend < divisor) {
+		minuend = (minuend * 10) + data.getDigitsDivider().get(0);
+		data.getDigitsDivider().remove(0);
 	    }
 	    return minuend;
 	}

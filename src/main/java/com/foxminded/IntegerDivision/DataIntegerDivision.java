@@ -10,6 +10,7 @@ public class DataIntegerDivision {
     private long remainder;
     private List<Long> minuendAndSubtrahend = new ArrayList<>();
     private List<Integer> offsets = new ArrayList<>();
+    private List<Integer> digitsDivider = new ArrayList<>();
 
     public long getDivider() {
 	return divider;
@@ -65,6 +66,20 @@ public class DataIntegerDivision {
 
     public void setOffsets(List<Integer> offsets) {
 	this.offsets = offsets;
+    }
+    
+    
+
+    public List<Integer> getDigitsDivider() {
+        return digitsDivider;
+    }
+
+    public void setDigitsDivider(List<Integer> digitsDivider) {
+        this.digitsDivider = digitsDivider;
+    }
+    
+    public void addDigitsDivider(Integer number) {
+        this.digitsDivider.add(number);
     }
 
     @Override
